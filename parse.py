@@ -1,13 +1,13 @@
 import feedparser
 import pprint
-
+import os
 feed = ["http://www.reddit.com/r/python/.rss"]
 
 
 def add_feed():
     for item in feed:
         try:
-            parsed = feedparser.parse(item)
+            feedparser.parse(item)
 
         except:
             print("no items found")
@@ -24,4 +24,3 @@ def feed_checker():
             )
         except:
             print("that didn't work")
-

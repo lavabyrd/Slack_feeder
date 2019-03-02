@@ -5,11 +5,12 @@ name = "pypi"
 
 [packages]
 feedparser = "*"
+python-dotenv = "*"
+pymongo = "*"
 
 [dev-packages]
 "pep8" = "*"
 pylint = "*"
-black = "*"
 
 [requires]
 python_version = "3.7"
