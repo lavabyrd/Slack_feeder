@@ -9,6 +9,7 @@ python-dotenv = "*"
 pymongo = "*"
 tomd = "*"
 html-slacker = "*"
+flask = "*"
 
 [dev-packages]
 "pep8" = "*"
