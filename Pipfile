@@ -7,6 +7,8 @@ name = "pypi"
 feedparser = "*"
 python-dotenv = "*"
 pymongo = "*"
+tomd = "*"
+html-slacker = "*"
 
 [dev-packages]
 "pep8" = "*"
