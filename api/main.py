@@ -6,10 +6,6 @@ import db
 api = Blueprint('api', __name__, url_prefix='/api')
 
 
-def secret_key_check():
-    pass
-
-
 @api.route('/add_feed', methods=['POST'])
 def add_rss_feed_subscription():
     """Add feed endpoint
@@ -32,9 +28,17 @@ def add_rss_feed_subscription():
     Information:
         https://api.slack.com/slash-commands
     """
-
-    payload = request.form.to_dict()["text"]
-    return payload
+    try:
+        payload = request.form.to_dict()
+        feed_url = payload["text"]
+        # response_url = payload["response_url"]
+        if not feed_url:
+            return "please enter some text e.g. `/add_feed test.com`"
+        else:
+            # db.insert_feed_url_to_db(url,)
+            return db.insert_feed_url_to_db(payload)           
+    except:
+        return "sorry, you've experienced an error"
 
 
 @api.route('/remove_feed', methods=['POST'])

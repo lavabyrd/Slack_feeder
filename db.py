@@ -45,19 +45,22 @@ def def_example():
         print("a failure occurred")
 
 
-def insert_feed_url_to_db(url, user_id, channel, team):
+def insert_feed_url_to_db(payload):
     try:
+        feed_url = payload["text"]
+        user_id = payload["user_id"]
+        channel = payload["channel_id"]
+        team = payload["team_id"]
         client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
         db = client.get_database()
         feed_list = db['feed_list']
         feed_list.insert_one({
             'user_id': user_id,
-            'url': url,
+            'feed_url': feed_url,
             'channel': channel,
             'team': team
             })
         client.close()  
-        return f'{url} successfully added'
+        return f'{feed_url} successfully added'
     except:
-        return f'failed to add {url} to the database'
-
+        return f'failed to add {feed_url} to the database'
