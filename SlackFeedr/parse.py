@@ -1,9 +1,25 @@
 import feedparser
-import pprint
-import os
 from htmlslacker import HTMLSlacker
 
-feed = ["http://www.reddit.com/r/python/.rss"]
+
+def test_feed(feed_url):
+    try:
+        print(feed_url)
+        print('http://feedparser.org/docs/examples/atom10.xml')
+        parsed = feedparser.parse(feed_url)
+        print("failed here?")
+        if title in parsed.feed:
+            print("invalid feed")
+            return f"{title} is the title"
+        else: 
+            print ("failed")
+            return "nope"
+    except:
+        print("test_field_failed")
+        return "fail?"
+        pass
+
+feed = []
 
 
 def add_feed():

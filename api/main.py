@@ -1,7 +1,6 @@
 from flask import Blueprint, json, Flask, request
-
 import db
-
+from SlackFeedr import parse
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -35,7 +34,8 @@ def add_rss_feed_subscription():
         if not feed_url:
             return "please enter some text e.g. `/add_feed test.com`"
         else:
-            # db.insert_feed_url_to_db(url,)
+            # return parse.test_feed(feed_url)
+            print("passed the feed test")
             return db.insert_feed_url_to_db(payload)           
     except:
         return "sorry, you've experienced an error"
