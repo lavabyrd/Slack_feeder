@@ -1,8 +1,13 @@
 from flask import Blueprint, json, Flask, request
 
+import db
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
+
+
+def secret_key_check():
+    pass
 
 
 @api.route('/add_feed', methods=['POST'])
@@ -34,4 +39,4 @@ def add_rss_feed_subscription():
 
 @api.route('/remove_feed', methods=['POST'])
 def remove_rss_feed_subscription():
-    return "Successfully removed Subscription"
+    return "removed feed"

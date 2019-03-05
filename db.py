@@ -45,5 +45,19 @@ def def_example():
         print("a failure occurred")
 
 
-if __name__ == "__main__":
-    def_example()
+def insert_feed_url_to_db(url, user_id, channel, team):
+    try:
+        client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
+        db = client.get_database()
+        feed_list = db['feed_list']
+        feed_list.insert_one({
+            'user_id': user_id,
+            'url': url,
+            'channel': channel,
+            'team': team
+            })
+        client.close()  
+        return f'{url} successfully added'
+    except:
+        return f'failed to add {url} to the database'
+
