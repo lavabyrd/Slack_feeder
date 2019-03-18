@@ -3,7 +3,7 @@ import db, os
 from SlackFeedr import parse
 from slackclient import SlackClient
 from blocks_builds import block
-
+import pprint
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -39,10 +39,10 @@ def add_rss_feed_subscription():
         if not feed_url:
             return "please enter some text e.g. `/add_feed test.com`"
         else:
-            print(sc.api_call('chat.postMessage',
-            channel=payload['channel_id'],
-            text="hi",
-            blocks=block.success_block))
+            sc.api_call('chat.postMessage',
+                        channel=payload['channel_id'],
+                        text="hi",
+                        blocks=block.success_block)
             return parse.test_rss_feed(feed_url)
             
             # return db.insert_feed_url_to_db(payload)           
@@ -53,3 +53,31 @@ def add_rss_feed_subscription():
 @api.route('/remove_feed', methods=['POST'])
 def remove_rss_feed_subscription():
     return "removed feed"
+
+
+@api.route("/actions", methods=["POST"])
+def action_route():
+    payload = json.loads(request.form.get("payload"))
+    for a in payload['actions']:
+        if a['block_id'] == "add_decline":
+            if a['selected_option']['value'] == 'add_rss_feed':
+                return "that worked"
+            elif a['selected_option']['value'] == 'cancel':
+                return "cancelled"
+        elif payload['callback_id'] == 'confirm_post':
+            if payload['actions'][0]['name'] == 'cancelled_job':
+                return payload["original_message"]["text"]
+            elif payload['actions'][0]['name'] == 'PostJob':
+                # sc.api_call("chat.postMessage",
+                #             text=payload["original_message"]["text"],
+                #             as_user="true",
+                #             channel=target_channel)
+                # sc.api_call('chat.update',
+                #             ts=payload["message_ts"],
+                #             channel=payload["channel"]["id"],
+                #             as_user="true",
+                #             text=payload["original_message"]["text"],
+                #             attachments=responses.attachm_update)
+                return ""
+            else:
+                return ""
