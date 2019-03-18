@@ -1,6 +1,7 @@
 import feedparser
 from htmlslacker import HTMLSlacker
-import pprint
+
+
 
 """valid feed requirements
 

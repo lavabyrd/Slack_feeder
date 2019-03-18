@@ -11,6 +11,7 @@ tomd = "*"
 html-slacker = "*"
 flask = "*"
 requests = "*"
+slackclient = "*"
 
 [dev-packages]
 "pep8" = "*"
