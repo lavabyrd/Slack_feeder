@@ -36,7 +36,8 @@ def add_rss_feed_subscription():
         else:
             # return parse.test_feed(feed_url)
             print("passed the feed test")
-            return db.insert_feed_url_to_db(payload)           
+            return parse.test_rss_feed(feed_url)
+            # return db.insert_feed_url_to_db(payload)           
     except:
         return "sorry, you've experienced an error"
 
