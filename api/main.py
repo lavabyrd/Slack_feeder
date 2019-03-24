@@ -49,8 +49,6 @@ def add_rss_feed_subscription():
                 return ""
             else:
                 return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"
-
-            # return db.insert_feed_url_to_db(payload)
     except:
         return "sorry, you've experienced an error"
 
@@ -66,6 +64,7 @@ def action_route():
     for a in payload["actions"]:
         if a["block_id"] == "add_decline":
             if a["selected_option"]["value"] == "add_rss_feed":
+                # return db.insert_feed_url_to_db(payload)
                 return "that worked"
             elif a["selected_option"]["value"] == "cancel":
                 return "cancelled"

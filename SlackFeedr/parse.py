@@ -1,6 +1,6 @@
 import feedparser
 from htmlslacker import HTMLSlacker
-
+import pprint
 
 """valid feed requirements
 
@@ -27,7 +27,7 @@ Note:
 
 def test_rss_feed(feed_url):
     if "title" in feedparser.parse(feed_url).feed:
-        f"{feed_url} is a good feed"
+
         return True
     else:
         return False
@@ -47,21 +47,7 @@ def add_feed():
     for item in feed:
         try:
             feedparser.parse(item)
+            val = feedparser.parse(feed_url).feed["updated"]
         except:
             print("no items found")
     print("successfull added all items")
-
-
-def feed_checker():
-    for item in feed:
-        try:
-            parsed = feedparser.parse(item)
-            print(
-                f"{parsed.feed.title} feed successfully "
-                f"added from <url|{parsed.feed.link}>"
-            )
-            outp = parsed.entries[0].summary
-            print(HTMLSlacker(outp).get_output())
-
-        except:
-            print("that didn't work")
