@@ -16,6 +16,7 @@ slackclient = "*"
 [dev-packages]
 "pep8" = "*"
 pylint = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"

@@ -2,7 +2,6 @@ import feedparser
 from htmlslacker import HTMLSlacker
 
 
-
 """valid feed requirements
 
 RSS:
@@ -27,16 +26,17 @@ Note:
 
 
 def test_rss_feed(feed_url):
-    if 'title' in feedparser.parse(feed_url).feed:
-        return f'{feed_url} is a good feed'
+    if "title" in feedparser.parse(feed_url).feed:
+        f"{feed_url} is a good feed"
+        return True
     else:
-        return f'{feed_url} is an invalid feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators'
+        return False
 
 
 # def test_atom_feed(feed_url):
 #     try:
 #         print(feed_url)
-        
+
 #     return "blah"
 
 

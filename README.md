@@ -9,3 +9,9 @@ Initialization of SlackFeeder
 # Packages
  - HTMLSlacker
  - https://pythonhosted.org/feedparser/
+
+# Thoughts
+ - unique ID 
+    --channel
+    --user
+    --workspace

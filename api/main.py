@@ -5,12 +5,12 @@ from slackclient import SlackClient
 from blocks_builds import block
 import pprint
 
-api = Blueprint('api', __name__, url_prefix='/api')
+api = Blueprint("api", __name__, url_prefix="/api")
 
-sc = SlackClient(os.environ.get('BOT_TOKEN'))
+sc = SlackClient(os.environ.get("BOT_TOKEN"))
 
 
-@api.route('/add_feed', methods=['POST'])
+@api.route("/add_feed", methods=["POST"])
 def add_rss_feed_subscription():
     """Add feed endpoint
     Returns:
@@ -39,18 +39,23 @@ def add_rss_feed_subscription():
         if not feed_url:
             return "please enter some text e.g. `/add_feed test.com`"
         else:
-            sc.api_call('chat.postMessage',
-                        channel=payload['channel_id'],
-                        text="hi",
-                        blocks=block.success_block)
-            return parse.test_rss_feed(feed_url)
-            
-            # return db.insert_feed_url_to_db(payload)           
+            if parse.test_rss_feed(feed_url) is True:
+                sc.api_call(
+                    "chat.postMessage",
+                    channel=payload["channel_id"],
+                    text="hi",
+                    blocks=block.success_block,
+                )
+                return ""
+            else:
+                return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"
+
+            # return db.insert_feed_url_to_db(payload)
     except:
         return "sorry, you've experienced an error"
 
 
-@api.route('/remove_feed', methods=['POST'])
+@api.route("/remove_feed", methods=["POST"])
 def remove_rss_feed_subscription():
     return "removed feed"
 
@@ -58,26 +63,28 @@ def remove_rss_feed_subscription():
 @api.route("/actions", methods=["POST"])
 def action_route():
     payload = json.loads(request.form.get("payload"))
-    for a in payload['actions']:
-        if a['block_id'] == "add_decline":
-            if a['selected_option']['value'] == 'add_rss_feed':
+    for a in payload["actions"]:
+        if a["block_id"] == "add_decline":
+            if a["selected_option"]["value"] == "add_rss_feed":
                 return "that worked"
-            elif a['selected_option']['value'] == 'cancel':
+            elif a["selected_option"]["value"] == "cancel":
                 return "cancelled"
-        elif payload['callback_id'] == 'confirm_post':
-            if payload['actions'][0]['name'] == 'cancelled_job':
-                return payload["original_message"]["text"]
-            elif payload['actions'][0]['name'] == 'PostJob':
-                # sc.api_call("chat.postMessage",
-                #             text=payload["original_message"]["text"],
-                #             as_user="true",
-                #             channel=target_channel)
-                # sc.api_call('chat.update',
-                #             ts=payload["message_ts"],
-                #             channel=payload["channel"]["id"],
-                #             as_user="true",
-                #             text=payload["original_message"]["text"],
-                #             attachments=responses.attachm_update)
-                return ""
-            else:
-                return ""
+        # elif payload['callback_id'] == 'confirm_post':
+        #     if payload['actions'][0]['name'] == 'cancelled_job':
+        #         return payload["original_message"]["text"]
+        #     elif payload['actions'][0]['name'] == 'PostJob':
+        #         # sc.api_call("chat.postMessage",
+        #         #             text=payload["original_message"]["text"],
+        #         #             as_user="true",
+        #         #             channel=target_channel)
+        #         # sc.api_call('chat.update',
+        #         #             ts=payload["message_ts"],
+        #         #             channel=payload["channel"]["id"],
+        #         #             as_user="true",
+        #         #             text=payload["original_message"]["text"],
+        #         #             attachments=responses.attachm_update)
+        #         return ""
+        #     else:
+        #         return ""
+        else:
+            return "try again"
