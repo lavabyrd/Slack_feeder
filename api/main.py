@@ -44,7 +44,7 @@ def add_rss_feed_subscription():
                     "chat.postMessage",
                     channel=payload["channel_id"],
                     text="hi",
-                    blocks=block.success_block,
+                    blocks=block.success_block_preview,
                 )
                 return ""
             else:
