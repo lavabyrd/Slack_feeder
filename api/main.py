@@ -46,7 +46,7 @@ def add_rss_feed_subscription():
 
             if test_feed["status"] is True:
                 sc.api_call(
-                    "chat.postEphemeral",
+                    "chat.postMessage",
                     channel=payload["channel_id"],
                     text="hi",
                     blocks=blockout.success_block_preview(
@@ -57,6 +57,7 @@ def add_rss_feed_subscription():
                         feed_entry_link=test_feed["feed_entry_link"],
                     ),  # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
                 )
+
                 return ""
             else:
                 return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"

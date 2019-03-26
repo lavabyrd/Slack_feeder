@@ -52,17 +52,6 @@ def test_rss_feed(feed_url):
 feed = []
 
 
-def preview_feed(feed_url):
-    d = feedparser.parse(feed_url)
-    # pprint.pprint(d.entries[0])
-    # print(d.entries[0]["summary"])
-    # print(d.entries[0]["link"])
-    return {
-        "summary": HTMLSlacker(d.entries[0]["summary"]),
-        "feed_link": d.entries[0]["link"],
-    }
-
-
 def add_feed():
     for item in feed:
         try:

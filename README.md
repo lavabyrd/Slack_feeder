@@ -1,5 +1,6 @@
 Initialization of SlackFeeder
 
+![](Slack_Feeder.jpg)
 
 # Helpful links
 - https://www.pythonforbeginners.com/feedparser/using-feedparser-in-python
