@@ -1,13 +1,15 @@
 from flask import Blueprint, json, Flask, request
-import db, os
+import db
+import os
 from SlackFeedr import parse
 from slackclient import SlackClient
 from blocks_builds import block
-import pprint
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
 sc = SlackClient(os.environ.get("BOT_TOKEN"))
+
+blockout = block.Blocks_class()
 
 
 @api.route("/add_feed", methods=["POST"])
@@ -40,7 +42,6 @@ def add_rss_feed_subscription():
             return "please enter some text e.g. `/add_feed test.com`"
         else:
             if parse.test_rss_feed(feed_url) is True:
-                blockout = block.Blocks_class()
                 sc.api_call(
                     "chat.postMessage",
                     channel=payload["channel_id"],
@@ -56,6 +57,7 @@ def add_rss_feed_subscription():
 
 @api.route("/remove_feed", methods=["POST"])
 def remove_rss_feed_subscription():
+    # Add a confirm removal block here, or perhaps a confirm box?
     return "removed feed"
 
 
