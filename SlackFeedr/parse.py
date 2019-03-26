@@ -26,11 +26,18 @@ Note:
 
 
 def test_rss_feed(feed_url):
-    if "title" in feedparser.parse(feed_url).feed:
+    feed_dump = feedparser.parse(feed_url).feed
 
-        return True
+    pprint.pprint(feed_dump)
+    if "title" in feed_dump:
+        # pprint.pprint(feedparser.parse(feed_url).feed)
+        return {
+            "status": True,
+            "title": feed_dump["title"],
+            "feed_subtext": feed_dump["subtitle"],
+        }
     else:
-        return False
+        return {"status": False}
 
 
 # def test_atom_feed(feed_url):

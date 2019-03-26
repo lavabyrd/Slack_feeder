@@ -41,12 +41,16 @@ def add_rss_feed_subscription():
         if not feed_url:
             return "please enter some text e.g. `/add_feed test.com`"
         else:
-            if parse.test_rss_feed(feed_url) is True:
+            if parse.test_rss_feed(feed_url)["status"] is True:
                 sc.api_call(
                     "chat.postMessage",
                     channel=payload["channel_id"],
                     text="hi",
-                    blocks=blockout.success_block_preview("feed_text_random", feed_url),
+                    blocks=blockout.success_block_preview(
+                        parse.test_rss_feed(feed_url)["feed_subtext"],
+                        feed_url,
+                        parse.test_rss_feed(feed_url)["title"],
+                    ),
                 )
                 return ""
             else:
