@@ -8,7 +8,8 @@ class Blocks_class:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"*Feed Summary*\n\n> {feed_subtext}\n\n*<{feed_entry_link}|Last post>*\n\n>>> {feed_summary} ",
+                    # "text": f"*Feed Summary*\n\n> {feed_subtext}\n\n*<{feed_entry_link}|Last post>*\n\n {feed_summary}",
+                    "text": "example",
                 },
             },
             {

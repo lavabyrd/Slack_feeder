@@ -37,14 +37,7 @@ def test_rss_feed(feed_url):
             "feed_summary": HTMLSlacker(d.entries[0]["summary"]).get_output(),
             "feed_entry_link": d.entries[0]["link"],
         }
-        print(dumpout)
-        return {
-            "status": True,
-            "title": feed_dump["title"],
-            "feed_subtext": feed_dump["subtitle"],
-            "feed_summary": HTMLSlacker(d.entries[0]["summary"]).get_output(),
-            "feed_entry_link": d.entries[0]["link"],
-        }
+        return dumpout
     else:
         return {"status": False}
 

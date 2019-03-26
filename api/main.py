@@ -43,6 +43,7 @@ def add_rss_feed_subscription():
             return "please enter some text e.g. `/add_feed test.com`"
         else:
             test_feed = parse.test_rss_feed(feed_url)
+
             if test_feed["status"] is True:
                 print(
                     sc.api_call(
@@ -55,7 +56,7 @@ def add_rss_feed_subscription():
                             test_feed["title"],
                             test_feed["feed_summary"],
                             test_feed["feed_entry_link"],
-                        ),
+                        ),  # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
                     )
                 )
 
