@@ -4,6 +4,7 @@ import os
 from SlackFeedr import parse
 from slackclient import SlackClient
 from blocks_builds import block
+import pprint
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
@@ -41,17 +42,23 @@ def add_rss_feed_subscription():
         if not feed_url:
             return "please enter some text e.g. `/add_feed test.com`"
         else:
-            if parse.test_rss_feed(feed_url)["status"] is True:
-                sc.api_call(
-                    "chat.postMessage",
-                    channel=payload["channel_id"],
-                    text="hi",
-                    blocks=blockout.success_block_preview(
-                        parse.test_rss_feed(feed_url)["feed_subtext"],
-                        feed_url,
-                        parse.test_rss_feed(feed_url)["title"],
-                    ),
+            test_feed = parse.test_rss_feed(feed_url)
+            if test_feed["status"] is True:
+                print(
+                    sc.api_call(
+                        "chat.postMessage",
+                        channel=payload["channel_id"],
+                        text="hi",
+                        blocks=blockout.success_block_preview(
+                            test_feed["feed_subtext"],
+                            feed_url,
+                            test_feed["title"],
+                            test_feed["feed_summary"],
+                            test_feed["feed_entry_link"],
+                        ),
+                    )
                 )
+
                 return ""
             else:
                 return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"
@@ -68,13 +75,18 @@ def remove_rss_feed_subscription():
 @api.route("/actions", methods=["POST"])
 def action_route():
     payload = json.loads(request.form.get("payload"))
-    for a in payload["actions"]:
-        if a["block_id"] == "add_decline":
-            if a["selected_option"]["value"] == "add_rss_feed":
+    for button_payload in payload["actions"]:
+        if button_payload["block_id"] == "add_decline":
+            if button_payload["value"] == "add_rss_feed":
                 # return db.insert_feed_url_to_db(payload)
                 return "that worked"
-            elif a["selected_option"]["value"] == "cancel":
+            elif button_payload["value"] == "cancel":
                 return "cancelled"
+            else:
+                parse.preview_feed(button_payload["value"])
+                # button_payload["value"]
+                print(payload["response_url"])
+                return "test"
         # elif payload['callback_id'] == 'confirm_post':
         #     if payload['actions'][0]['name'] == 'cancelled_job':
         #         return payload["original_message"]["text"]
