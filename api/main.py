@@ -45,21 +45,18 @@ def add_rss_feed_subscription():
             test_feed = parse.test_rss_feed(feed_url)
 
             if test_feed["status"] is True:
-                print(
-                    sc.api_call(
-                        "chat.postMessage",
-                        channel=payload["channel_id"],
-                        text="hi",
-                        blocks=blockout.success_block_preview(
-                            test_feed["feed_subtext"],
-                            feed_url,
-                            test_feed["title"],
-                            test_feed["feed_summary"],
-                            test_feed["feed_entry_link"],
-                        ),  # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
-                    )
+                sc.api_call(
+                    "chat.postEphemeral",
+                    channel=payload["channel_id"],
+                    text="hi",
+                    blocks=blockout.success_block_preview(
+                        feed_subtext=test_feed["feed_subtext"],
+                        feed_link=feed_url,
+                        feed_title=test_feed["title"],
+                        feed_summary=test_feed["feed_summary"],
+                        feed_entry_link=test_feed["feed_entry_link"],
+                    ),  # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
                 )
-
                 return ""
             else:
                 return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"
@@ -83,11 +80,6 @@ def action_route():
                 return "that worked"
             elif button_payload["value"] == "cancel":
                 return "cancelled"
-            else:
-                parse.preview_feed(button_payload["value"])
-                # button_payload["value"]
-                print(payload["response_url"])
-                return "test"
         # elif payload['callback_id'] == 'confirm_post':
         #     if payload['actions'][0]['name'] == 'cancelled_job':
         #         return payload["original_message"]["text"]

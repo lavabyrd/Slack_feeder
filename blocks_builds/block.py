@@ -1,21 +1,26 @@
+import pprint
+
+
 class Blocks_class:
-    def success_block_preview(
-        self, feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
-    ):
-        return [
+    def success_block_preview(self, **kwargs):
+
+        # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
+        block = [
             {"type": "divider"},
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    # "text": f"*Feed Summary*\n\n> {feed_subtext}\n\n*<{feed_entry_link}|Last post>*\n\n {feed_summary}",
-                    "text": "example",
+                    "text": f"*Feed Summary*\n\n> {kwargs['feed_subtext']}\n\n*<{kwargs['feed_entry_link']}|Last post>*\n\n>>> {kwargs['feed_summary']}",
                 },
             },
             {
                 "type": "context",
                 "elements": [
-                    {"type": "mrkdwn", "text": f"<{feed_link}|*Feed*>: {feed_title}"}
+                    {
+                        "type": "mrkdwn",
+                        "text": f"<{kwargs['feed_link']}|*Feed*>: {kwargs['feed_title']}",
+                    }
                 ],
             },
             {"type": "divider"},
@@ -33,11 +38,7 @@ class Blocks_class:
                         "text": {"type": "plain_text", "text": "Cancel"},
                         "value": "cancel",
                     },
-                    {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Preview"},
-                        "value": feed_url,
-                    },
                 ],
             },
         ]
+        return block
