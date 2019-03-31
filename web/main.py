@@ -1,5 +1,6 @@
 from flask import Blueprint, Flask
 import os
+from databases import db
 
 web = Blueprint("web", __name__)
 

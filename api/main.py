@@ -7,10 +7,8 @@ from blocks_builds import block
 import pprint
 
 api = Blueprint("api", __name__, url_prefix="/api")
-
-sc = SlackClient(os.environ.get("BOT_TOKEN"))
-
 blockout = block.Blocks_class()
+keygrab = db.MongoRepository()
 
 
 @api.route("/add_feed", methods=["POST"])
@@ -45,6 +43,8 @@ def add_rss_feed_subscription():
             test_feed = parse.test_rss_feed(feed_url)
 
             if test_feed["status"] is True:
+                key = keygrab.key_grab(payload["team_id"])
+                sc = SlackClient(key["bot_token"])
                 sc.api_call(
                     "chat.postMessage",
                     channel=payload["channel_id"],
@@ -55,9 +55,8 @@ def add_rss_feed_subscription():
                         feed_title=test_feed["title"],
                         feed_summary=test_feed["feed_summary"],
                         feed_entry_link=test_feed["feed_entry_link"],
-                    ),  # feed_subtext, feed_link, feed_title, feed_summary, feed_entry_link
+                    ),
                 )
-
                 return ""
             else:
                 return f"{feed_url} is not a valid RSS feed. Please see <https://rss.com/rss-feed-validators/|this link> for some feed validators"
