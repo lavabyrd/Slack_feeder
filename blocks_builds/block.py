@@ -29,6 +29,7 @@ class Blocks_class:
                         "type": "button",
                         "text": {"type": "plain_text", "text": "Subscribe"},
                         "value": "add_rss_feed",
+                        "action_id": kwargs["feed_link"],
                     },
                     {
                         "type": "button",

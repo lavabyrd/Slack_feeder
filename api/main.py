@@ -78,7 +78,7 @@ def action_route():
             if button_payload["value"] == "add_rss_feed":
                 keygrab.add_feed(
                     user_id=payload["user"]["id"],
-                    feed_url="feed_url",
+                    feed_url=button_payload["action_id"],
                     channel=payload["channel"]["id"],
                     workspace=payload["user"]["team_id"],
                     latest="last_feed",
