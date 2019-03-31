@@ -3,9 +3,9 @@ import pymongo
 from pymongo import MongoClient
 import pprint
 
-db_user = os.environ.get("DB_USER")
-db_pass = os.environ.get("DB_PASS")
-db_uri = os.environ.get("DB_URI")
+# db_user = os.environ.get("DB_USER")
+# db_pass = os.environ.get("DB_PASS")
+# db_uri = os.environ.get("DB_URI")
 
 
 # def def_example():
@@ -52,6 +52,7 @@ db_uri = os.environ.get("DB_URI")
 
 # COLLECTION_NAME = "main_collection"
 # TOKEN_COLLECTION = "user_tokens"
+col_name = "oauth_keys"
 
 
 class MongoRepository(object):
@@ -60,7 +61,7 @@ class MongoRepository(object):
         db_pass = os.environ.get("DB_PASS")
         db_uri = os.environ.get("DB_URI")
 
-        self.db = MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}").main_collection
+        self.db = MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}").get_database()
 
     def find_all(self, selector):
         return self.db.main_collection.find(selector)
@@ -85,16 +86,17 @@ class MongoRepository(object):
             "team_id": kwargs["team_id"],
             "installing_user": kwargs["installing_user"],
         }
-        client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-        db = client.get_database()
-        user_tokens = db["oauth_keys"]
-        user_tokens.insert_one(resp)
-        client.close()
+        # client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
+        # db = client.get_database()
+        # user_tokens = db["oauth_keys"]
+        # user_tokens.insert_one(resp)
+        # client.close()
 
-        return resp
+        return self.db.oauth_keys.insert_one(resp)
 
     def key_grab(self, selector):
-        client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-        db = client.get_database()
-        user_tokens = db["oauth_keys"]
-        return user_tokens.find_one({"team_id": selector})
+        # client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
+        # db = client.get_database()
+        # print(self.db.oauth_keys.find_one({"team_id": selector}))
+        # user_tokens = self.db.oauth_keys.find_one({"team_id": selector})
+        return self.db.oauth_keys.find_one({"team_id": selector})
