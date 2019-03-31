@@ -76,26 +76,15 @@ def action_route():
     for button_payload in payload["actions"]:
         if button_payload["block_id"] == "add_decline":
             if button_payload["value"] == "add_rss_feed":
-                # return db.insert_feed_url_to_db(payload)
+                keygrab.add_feed(
+                    user_id=payload["user"]["id"],
+                    feed_url="feed_url",
+                    channel=payload["channel"]["id"],
+                    workspace=payload["user"]["team_id"],
+                    latest="last_feed",
+                )
                 return "that worked"
             elif button_payload["value"] == "cancel":
                 return "cancelled"
-        # elif payload['callback_id'] == 'confirm_post':
-        #     if payload['actions'][0]['name'] == 'cancelled_job':
-        #         return payload["original_message"]["text"]
-        #     elif payload['actions'][0]['name'] == 'PostJob':
-        #         # sc.api_call("chat.postMessage",
-        #         #             text=payload["original_message"]["text"],
-        #         #             as_user="true",
-        #         #             channel=target_channel)
-        #         # sc.api_call('chat.update',
-        #         #             ts=payload["message_ts"],
-        #         #             channel=payload["channel"]["id"],
-        #         #             as_user="true",
-        #         #             text=payload["original_message"]["text"],
-        #         #             attachments=responses.attachm_update)
-        #         return ""
-        #     else:
-        #         return ""
         else:
             return "try again"

@@ -1,40 +1,6 @@
 import os
-import pymongo
 from pymongo import MongoClient
-import pprint
 
-# db_user = os.environ.get("DB_USER")
-# db_pass = os.environ.get("DB_PASS")
-# db_uri = os.environ.get("DB_URI")
-
-
-# def def_example():
-#     try:
-#         client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-
-#         db = client.get_database()
-#         main_collection = db["main_collection"]
-#         main_collection.insert_many(SEED_DATA)
-#         cursor = main_collection.find({})
-#         for doc in cursor:
-#             print(doc)
-#         db.drop_collection("main_collection")
-#         client.close()
-#         print("Successfully completed and dropped")
-#     except:
-#         print("a failure occurred")
-
-
-# def insert_feed_url_to_db(payload, latest):
-#     try:
-#         feed_url = payload["text"]
-#         user_id = payload["user_id"]
-#         channel = payload["channel_id"]
-#         workspace = payload["team_id"]
-#         latest = latest
-#         client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-#         db = client.get_database()
-#         feed_list = db["feed_list"]
 #         feed_list.insert_one(
 #             {
 #                 "user_id": user_id,
@@ -43,16 +9,6 @@ import pprint
 #                 "workspace": workspace,
 #                 "last_feed": latest,
 #             }
-#         )
-#         client.close()
-#         return f"{feed_url} successfully added"
-#     except:
-#         return f"failed to add {feed_url} to the database"
-
-
-# COLLECTION_NAME = "main_collection"
-# TOKEN_COLLECTION = "user_tokens"
-col_name = "oauth_keys"
 
 
 class MongoRepository(object):
@@ -60,7 +16,6 @@ class MongoRepository(object):
         db_user = os.environ.get("DB_USER")
         db_pass = os.environ.get("DB_PASS")
         db_uri = os.environ.get("DB_URI")
-
         self.db = MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}").get_database()
 
     def find_all(self, selector):
@@ -86,17 +41,17 @@ class MongoRepository(object):
             "team_id": kwargs["team_id"],
             "installing_user": kwargs["installing_user"],
         }
-        # client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-        # db = client.get_database()
-        # user_tokens = db["oauth_keys"]
-        # user_tokens.insert_one(resp)
-        # client.close()
-
         return self.db.oauth_keys.insert_one(resp)
 
     def key_grab(self, selector):
-        # client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
-        # db = client.get_database()
-        # print(self.db.oauth_keys.find_one({"team_id": selector}))
-        # user_tokens = self.db.oauth_keys.find_one({"team_id": selector})
         return self.db.oauth_keys.find_one({"team_id": selector})
+
+    def add_feed(self, **kwargs):
+        feed = {
+            "user_id": kwargs["user_id"],
+            "feed_url": kwargs["feed_url"],
+            "channel": kwargs["channel"],
+            "workspace": kwargs["workspace"],
+            "last_feed": kwargs["latest"],
+        }
+        return self.db.feed_list.insert_one(feed)
