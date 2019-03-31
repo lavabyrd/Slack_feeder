@@ -25,6 +25,9 @@ class Install_response:
         return resp
 
 
+new_user = db.MongoRepository()
+
+
 @oauth.route("/finish_auth", methods=["GET", "POST"])
 def post_install():
     auth_code = request.args["code"]
@@ -35,7 +38,7 @@ def post_install():
     )
 
     print(
-        Install_response().success_install(
+        new_user.success_install(
             user_token=auth_response["access_token"],
             bot_token=auth_response["bot"]["bot_access_token"],
             bot_user_id=auth_response["bot"]["bot_user_id"],

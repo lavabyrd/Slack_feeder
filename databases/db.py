@@ -51,6 +51,7 @@ def insert_feed_url_to_db(payload, latest):
 
 
 COLLECTION_NAME = "main_collection"
+TOKEN_COLLECTION = "user_tokens"
 
 
 class MongoRepository(object):
@@ -75,3 +76,19 @@ class MongoRepository(object):
 
     def delete(self, selector):
         return self.db.main_collection.delete_one(selector).deleted_count
+
+    def success_install(self, **kwargs):
+        resp = {
+            "user_token": kwargs["user_token"],
+            "bot_token": kwargs["bot_token"],
+            "bot_user_id": kwargs["bot_user_id"],
+            "team_id": kwargs["team_id"],
+            "installing_user": kwargs["installing_user"],
+        }
+        client = pymongo.MongoClient(f"mongodb://{db_user}:{db_pass}@{db_uri}")
+        db = client.get_database()
+        user_tokens = db["oauth_keys"]
+        user_tokens.insert_one(resp)
+        client.close()
+
+        return resp
