@@ -1,16 +1,14 @@
 from flask import Blueprint, Flask
 import os
 
-web = Blueprint('web', __name__,)
+web = Blueprint("web", __name__)
+
+client_id = os.environ.get("CLIENT_ID")
+client_secret = os.environ.get("CLIENT_SECRET")
+oauth_scope = os.environ.get("SCOPE")
 
 
-@web.route('/')
-def index():
-    return "Index Page"
-
-
-@web.route('/install')
-def add_to_slack_install_page():
-    client_id = os.environ.get('CLIENT_ID')
-    client_secret = os.environ.get('CLIENT_SECRET')
-    return "Successfully removed Subscription"
+@web.route("/")
+@web.route("/begin_auth")
+def pre_install():
+    return f'<a href="https://slack.com/oauth/authorize?scope={oauth_scope}&client_id={client_id}">Add to Slack</a>'

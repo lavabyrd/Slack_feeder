@@ -1,6 +1,7 @@
 from flask import Flask
 from api.main import api
 from api.oauth_flow import oauth
+from web.main import web
 import os
 
 
@@ -9,11 +10,7 @@ app = Flask(__name__)
 
 app.register_blueprint(api)
 app.register_blueprint(oauth)
-
-
-@app.route("/")
-def home():
-    return "hello"
+app.register_blueprint(web)
 
 
 if __name__ == "__main__":
