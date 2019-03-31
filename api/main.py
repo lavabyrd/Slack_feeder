@@ -1,5 +1,5 @@
 from flask import Blueprint, json, Flask, request
-import db
+from databases import db
 import os
 from SlackFeedr import parse
 from slackclient import SlackClient

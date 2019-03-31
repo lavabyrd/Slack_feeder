@@ -1,5 +1,6 @@
 from flask import Flask
 from api.main import api
+from api.oauth_flow import oauth
 import os
 
 
@@ -7,6 +8,7 @@ app = Flask(__name__)
 
 
 app.register_blueprint(api)
+app.register_blueprint(oauth)
 
 
 @app.route("/")
